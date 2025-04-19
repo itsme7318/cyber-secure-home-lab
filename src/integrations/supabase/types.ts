@@ -9,6 +9,80 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      exploit_history: {
+        Row: {
+          detected: boolean | null
+          executed_at: string | null
+          exploit_id: string | null
+          exploit_name: string
+          exploit_type: string
+          id: string
+          status: string
+        }
+        Insert: {
+          detected?: boolean | null
+          executed_at?: string | null
+          exploit_id?: string | null
+          exploit_name: string
+          exploit_type: string
+          id?: string
+          status: string
+        }
+        Update: {
+          detected?: boolean | null
+          executed_at?: string | null
+          exploit_id?: string | null
+          exploit_name?: string
+          exploit_type?: string
+          id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exploit_history_exploit_id_fkey"
+            columns: ["exploit_id"]
+            isOneToOne: false
+            referencedRelation: "exploit_library"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      exploit_library: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          difficulty_level: string
+          id: string
+          learning_objectives: string[]
+          name: string
+          payload: Json | null
+          short_description: string
+          type: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          difficulty_level: string
+          id?: string
+          learning_objectives: string[]
+          name: string
+          payload?: Json | null
+          short_description: string
+          type: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          difficulty_level?: string
+          id?: string
+          learning_objectives?: string[]
+          name?: string
+          payload?: Json | null
+          short_description?: string
+          type?: string
+        }
+        Relationships: []
+      }
       practice_scenarios: {
         Row: {
           category: string
