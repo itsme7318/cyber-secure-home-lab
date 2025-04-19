@@ -1,13 +1,42 @@
-
 import MainLayout from "@/components/layout/MainLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { trainingScenarios, learningModules } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BookOpenText, GraduationCap, Play, Shield, Terminal, Trophy } from "lucide-react";
+import { Play, Shield, Trophy, Terminal, BookOpenText, GraduationCap } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { trainingScenarios, learningModules } from "@/lib/data";
+
+// Define types for our scenarios
+interface PracticeScenario {
+  id: string;
+  title: string;
+  description: string;
+  difficulty_level: 'Beginner' | 'Intermediate' | 'Advanced';
+  category: string;
+  learning_objectives: string[];
+  created_at: string;
+}
 
 export default function Labs() {
+  // Fetch practice scenarios from Supabase
+  const { data: scenarios, isLoading } = useQuery({
+    queryKey: ['practice-scenarios'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('practice_scenarios')
+        .select('*');
+      
+      if (error) {
+        console.error('Error fetching scenarios:', error);
+        return [];
+      }
+      
+      return data as PracticeScenario[];
+    }
+  });
+
   return (
     <MainLayout>
       <div className="space-y-6">
@@ -25,77 +54,45 @@ export default function Labs() {
           </TabsList>
           
           <TabsContent value="scenarios" className="mt-0">
-            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {trainingScenarios.map((scenario) => (
-                <Card key={scenario.id} className="overflow-hidden">
-                  <div className="h-2 bg-primary"></div>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <CardTitle>{scenario.title}</CardTitle>
-                      <Badge variant="outline">{scenario.difficulty}</Badge>
-                    </div>
-                    <CardDescription>{scenario.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between text-sm mb-4">
-                      <div className="flex items-center">
-                        <Shield className="mr-2 h-4 w-4 text-muted-foreground" />
-                        <span className="text-muted-foreground">{scenario.category}</span>
+            {isLoading ? (
+              <div>Loading scenarios...</div>
+            ) : (
+              <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {scenarios?.map((scenario) => (
+                  <Card key={scenario.id} className="overflow-hidden">
+                    <div className="h-2 bg-primary"></div>
+                    <CardHeader>
+                      <div className="flex justify-between items-start">
+                        <CardTitle>{scenario.title}</CardTitle>
+                        <Badge variant="outline">{scenario.difficulty_level}</Badge>
                       </div>
-                      <div className="flex items-center">
-                        <Trophy className="mr-2 h-4 w-4 text-muted-foreground" />
-                        <span className="text-muted-foreground">{scenario.duration}</span>
+                      <CardDescription>{scenario.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between text-sm mb-4">
+                        <div className="flex items-center">
+                          <Shield className="mr-2 h-4 w-4 text-muted-foreground" />
+                          <span className="text-muted-foreground">{scenario.category}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-xs font-medium">Skills you'll practice:</div>
-                      <div className="flex flex-wrap gap-1">
-                        {scenario.category === "Web Security" && (
-                          <>
-                            <Badge variant="secondary">SQL Injection</Badge>
-                            <Badge variant="secondary">XSS Detection</Badge>
-                            <Badge variant="secondary">WAF Tuning</Badge>
-                          </>
-                        )}
-                        {scenario.category === "Incident Response" && (
-                          <>
-                            <Badge variant="secondary">Containment</Badge>
-                            <Badge variant="secondary">Evidence Collection</Badge>
-                            <Badge variant="secondary">Forensics</Badge>
-                          </>
-                        )}
-                        {scenario.category === "Threat Hunting" && (
-                          <>
-                            <Badge variant="secondary">IOC Detection</Badge>
-                            <Badge variant="secondary">MITRE ATT&CK</Badge>
-                            <Badge variant="secondary">Pattern Analysis</Badge>
-                          </>
-                        )}
-                        {scenario.category === "Email Security" && (
-                          <>
-                            <Badge variant="secondary">Header Analysis</Badge>
-                            <Badge variant="secondary">Link Investigation</Badge>
-                            <Badge variant="secondary">User Training</Badge>
-                          </>
-                        )}
-                        {scenario.category === "Network Security" && (
-                          <>
-                            <Badge variant="secondary">Traffic Analysis</Badge>
-                            <Badge variant="secondary">Segmentation</Badge>
-                            <Badge variant="secondary">Protocol Review</Badge>
-                          </>
-                        )}
+                      <div className="space-y-2">
+                        <div className="text-xs font-medium">Learning Objectives:</div>
+                        <div className="flex flex-wrap gap-1">
+                          {scenario.learning_objectives.map((objective, index) => (
+                            <Badge key={index} variant="secondary">{objective}</Badge>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full">
-                      <Play className="mr-2 h-4 w-4" /> Start Scenario
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button className="w-full">
+                        <Play className="mr-2 h-4 w-4" /> Start Scenario
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            )}
           </TabsContent>
           
           <TabsContent value="modules" className="mt-0">

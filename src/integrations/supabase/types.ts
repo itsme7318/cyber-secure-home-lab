@@ -9,7 +9,71 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      practice_scenarios: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string | null
+          difficulty_level: string
+          id: string
+          learning_objectives: string[] | null
+          title: string
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          description?: string | null
+          difficulty_level: string
+          id?: string
+          learning_objectives?: string[] | null
+          title: string
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          difficulty_level?: string
+          id?: string
+          learning_objectives?: string[] | null
+          title?: string
+        }
+        Relationships: []
+      }
+      scenario_events: {
+        Row: {
+          event_data: Json
+          event_type: string
+          id: string
+          scenario_id: string | null
+          severity: string | null
+          timestamp: string | null
+        }
+        Insert: {
+          event_data: Json
+          event_type: string
+          id?: string
+          scenario_id?: string | null
+          severity?: string | null
+          timestamp?: string | null
+        }
+        Update: {
+          event_data?: Json
+          event_type?: string
+          id?: string
+          scenario_id?: string | null
+          severity?: string | null
+          timestamp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scenario_events_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "practice_scenarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
