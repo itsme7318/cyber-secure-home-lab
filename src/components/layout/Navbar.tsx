@@ -1,4 +1,3 @@
-
 import { Bell, Search, Shield, User } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -9,7 +8,7 @@ export default function Navbar() {
     <header className="border-b bg-card h-14 px-4 flex items-center justify-between sticky top-0 z-10">
       <div className="flex items-center space-x-2">
         <Shield className="h-6 w-6 text-primary" />
-        <span className="font-bold text-lg">CyberSIEM</span>
+        <span className="font-bold text-lg">SIEM HOME LAB</span>
       </div>
       
       <div className="hidden md:flex items-center max-w-md w-full mx-4">
