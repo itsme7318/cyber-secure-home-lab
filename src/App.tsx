@@ -20,6 +20,7 @@ import Collectors from "./pages/Collectors";
 import Settings from "./pages/Settings";
 import Scenarios from "./pages/Scenarios";
 import Tutorials from "./pages/Tutorials";
+import ExploitTests from "./pages/ExploitTests";
 
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/labs" element={<Labs />} />
             <Route path="/scenarios" element={<Scenarios />} />
             <Route path="/tutorials" element={<Tutorials />} />
+            <Route path="/exploits" element={<ExploitTests />} />
             <Route path="/integrations" element={<Integrations />} />
             <Route path="/collectors" element={<Collectors />} />
             <Route path="/settings" element={<Settings />} />
