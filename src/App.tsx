@@ -1,4 +1,5 @@
 
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,34 +21,37 @@ import Settings from "./pages/Settings";
 import Scenarios from "./pages/Scenarios";
 import Tutorials from "./pages/Tutorials";
 
+// Create a new QueryClient instance
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/logs" element={<LogAnalysis />} />
-          <Route path="/alerts" element={<Alerts />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/incidents" element={<Incidents />} />
-          <Route path="/threats" element={<ThreatIntel />} />
-          <Route path="/assets" element={<Assets />} />
-          <Route path="/vulnerabilities" element={<Vulnerabilities />} />
-          <Route path="/labs" element={<Labs />} />
-          <Route path="/scenarios" element={<Scenarios />} />
-          <Route path="/tutorials" element={<Tutorials />} />
-          <Route path="/integrations" element={<Integrations />} />
-          <Route path="/collectors" element={<Collectors />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/logs" element={<LogAnalysis />} />
+            <Route path="/alerts" element={<Alerts />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/incidents" element={<Incidents />} />
+            <Route path="/threats" element={<ThreatIntel />} />
+            <Route path="/assets" element={<Assets />} />
+            <Route path="/vulnerabilities" element={<Vulnerabilities />} />
+            <Route path="/labs" element={<Labs />} />
+            <Route path="/scenarios" element={<Scenarios />} />
+            <Route path="/tutorials" element={<Tutorials />} />
+            <Route path="/integrations" element={<Integrations />} />
+            <Route path="/collectors" element={<Collectors />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </React.StrictMode>
 );
 
 export default App;
