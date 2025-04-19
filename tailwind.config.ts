@@ -52,6 +52,20 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+                // Cybersecurity colors
+                cyber: {
+                    terminal: '#39FF14', // Bright terminal green
+                    dark: '#0F1923',     // Deep blue-black
+                    darkBlue: '#1A2332', // Dark blue for panels
+                    lightBlue: '#007BFF', // Light blue for highlights
+                    alert: {
+                        critical: '#FF3A33', // Critical alert red
+                        high: '#FF6B33',     // High alert orange
+                        medium: '#FFCC33',   // Medium alert yellow
+                        low: '#33CCFF',      // Low alert blue
+                        info: '#33FF99',     // Info alert green
+                    },
+                },
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
